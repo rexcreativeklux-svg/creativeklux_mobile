@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbdca6"/>
+      <stop offset=".6" stop-color="#f8e6c8"/>
+      <stop offset="1" stop-color="#f8efe0"/>
+    </linearGradient>
+    <radialGradient id="sun" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ffb347" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#ffb347" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1180" cy="230" r="250" fill="url(#sun)"/>
+  <circle cx="1180" cy="230" r="76" fill="#ffcf7a" opacity=".9"/>
+  <g fill="#7a5230" opacity=".5">
+    <path d="M300 140 q30 -26 60 0 q26 26 0 52 q-30 26 -60 0 q-26 -26 0 -52z"/>
+    <path d="M300 166 h-46 M360 166 h46"/>
+    <path d="M520 250 q24 -20 48 0 q20 20 0 42 q-24 20 -48 0 q-20 -20 0 -42z"/>
+    <path d="M860 120 q20 -18 40 0 q18 18 0 36 q-20 18 -40 0 q-18 -18 0 -36z"/>
+  </g>
+  <path d="M0 660 Q 240 600 480 655 T 960 650 T 1600 640 L1600 900 L0 900Z" fill="#c8a06a" opacity=".45"/>
+  <g fill="#5a3b22" opacity=".62">
+    <path d="M980 660 v-190 h34 v-42 h30 v42 h40 v-120 h34 v120 h40 v-42 h30 v42 h34 v190z"/>
+    <path d="M1096 300 l-14 -44 -14 44z"/>
+  </g>
+  <g fill="#3f2a18" opacity=".5">
+    <path d="M240 660 q-18 -90 22 -120 q-30 -70 30 -96 q10 60 56 70 q-40 40 -18 146z"/>
+    <path d="M700 660 q-14 -70 18 -96 q-24 -56 24 -76 q8 48 44 56 q-32 32 -14 116z"/>
+  </g>
+  <g>
+    <path d="M420 800 c-56 0 -92 -36 -92 -74 s36 -66 92 -66 56 66 56 66 -36 74 -56 74z" fill="#e2711d" opacity=".85"/>
+    <path d="M470 800 c-56 0 -92 -36 -92 -74 s36 -66 92 -66 92 28 92 66 -36 74 -92 74z" fill="#d9641a" opacity=".9"/>
+    <path d="M470 660 v-30 q20 -14 34 -4" stroke="#5a3b22" stroke-width="10" fill="none" opacity=".8"/>
+    <path d="M440 706 l24 24 -24 24z M500 706 l-24 24 24 24z" fill="#4a2c12" opacity=".85"/>
+    <path d="M434 762 q36 26 72 0 q-16 26 -36 26 t-36 -26z" fill="#4a2c12" opacity=".85"/>
+  </g>
+  <g>
+    <path d="M1360 810 c-42 0 -70 -28 -70 -56 s28 -50 70 -50 70 22 70 50 -28 56 -70 56z" fill="#e07a24" opacity=".8"/>
+    <path d="M1360 704 v-22 q14 -10 26 -4" stroke="#5a3b22" stroke-width="8" fill="none" opacity=".75"/>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Native launch screen: the logo in a white circle on navy — the first frame
+     of the Flutter opening animation (lib/features/shell/splash_screen.dart). -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/splash_navy" />
+    <item android:width="160dp" android:height="160dp" android:gravity="center">
+        <shape android:shape="oval">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+    <item android:width="120dp" android:height="120dp" android:gravity="center" android:drawable="@drawable/ck_logo" />
+</layer-list>

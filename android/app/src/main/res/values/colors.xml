@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Launch navy — must match _navy in lib/features/shell/splash_screen.dart
+         so the native splash hands over to the opening animation seamlessly. -->
+    <color name="splash_navy">#0A1A55</color>
+</resources>

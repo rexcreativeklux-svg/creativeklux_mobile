@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12+ splash icon. The system draws it 240dp and masks it to a 160dp
+     circle, so the logo is inset to 120dp to keep the star's tips inside. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ck_logo"
+    android:inset="60dp" />

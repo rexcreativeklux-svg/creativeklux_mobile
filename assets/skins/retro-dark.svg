@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#160a26"/>
+      <stop offset="1" stop-color="#2a0f33"/>
+    </linearGradient>
+    <linearGradient id="disc" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffcf5c"/>
+      <stop offset=".55" stop-color="#ff6f61"/>
+      <stop offset="1" stop-color="#e33a8e"/>
+    </linearGradient>
+    <radialGradient id="halo" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ff6f9c" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#ff6f9c" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="stripes">
+      <rect width="1600" height="900" fill="#fff"/>
+      <g fill="#000">
+        <rect x="600" y="470" width="400" height="10"/>
+        <rect x="600" y="500" width="400" height="14"/>
+        <rect x="600" y="536" width="400" height="18"/>
+        <rect x="600" y="578" width="400" height="24"/>
+      </g>
+    </mask>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="800" cy="470" r="340" fill="url(#halo)"/>
+  <circle cx="800" cy="470" r="200" fill="url(#disc)" opacity=".8" mask="url(#stripes)"/>
+  <path d="M0 640 L1600 640 L1600 900 L0 900Z" fill="#0d0618" opacity=".8"/>
+  <g stroke="#c53fa0" stroke-width="2" opacity=".45">
+    <line x1="0" y1="680" x2="1600" y2="680"/>
+    <line x1="0" y1="730" x2="1600" y2="730"/>
+    <line x1="0" y1="795" x2="1600" y2="795"/>
+    <line x1="0" y1="872" x2="1600" y2="872"/>
+    <line x1="800" y1="640" x2="360" y2="900"/>
+    <line x1="800" y1="640" x2="640" y2="900"/>
+    <line x1="800" y1="640" x2="960" y2="900"/>
+    <line x1="800" y1="640" x2="1240" y2="900"/>
+  </g>
+</svg>

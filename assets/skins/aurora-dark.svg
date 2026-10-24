@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a1024"/>
+      <stop offset=".6" stop-color="#0d1730"/>
+      <stop offset="1" stop-color="#101d38"/>
+    </linearGradient>
+    <radialGradient id="a1" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#3ee0a6" stop-opacity=".42"/>
+      <stop offset="1" stop-color="#3ee0a6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="a2" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#6f7ce8" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#6f7ce8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="a3" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#43c8d8" stop-opacity=".3"/>
+      <stop offset="1" stop-color="#43c8d8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <g fill="#dce8ff">
+    <circle cx="180" cy="120" r="2" opacity=".8"/><circle cx="420" cy="80" r="1.6" opacity=".6"/>
+    <circle cx="640" cy="170" r="2.2" opacity=".7"/><circle cx="880" cy="90" r="1.5" opacity=".55"/>
+    <circle cx="1100" cy="150" r="2" opacity=".7"/><circle cx="1350" cy="70" r="1.7" opacity=".6"/>
+    <circle cx="1520" cy="210" r="2.1" opacity=".65"/><circle cx="300" cy="260" r="1.4" opacity=".5"/>
+    <circle cx="760" cy="300" r="1.6" opacity=".45"/><circle cx="1240" cy="330" r="1.5" opacity=".5"/>
+  </g>
+  <ellipse cx="520" cy="260" rx="660" ry="200" fill="url(#a1)" transform="rotate(-12 520 260)"/>
+  <ellipse cx="1150" cy="200" rx="540" ry="165" fill="url(#a2)" transform="rotate(10 1150 200)"/>
+  <ellipse cx="820" cy="380" rx="720" ry="140" fill="url(#a3)" transform="rotate(-4 820 380)"/>
+  <path d="M0 655 L270 470 L455 585 L700 405 L955 600 L1235 465 L1600 630 L1600 900 L0 900Z" fill="#0c1528" opacity=".9"/>
+  <path d="M0 735 L245 605 L520 705 L815 555 L1120 690 L1395 600 L1600 695 L1600 900 L0 900Z" fill="#080f1e" opacity=".95"/>
+  <path d="M0 820 L300 760 L640 815 L980 745 L1310 805 L1600 765 L1600 900 L0 900Z" fill="#050a15"/>
+</svg>

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fcd9a8"/>
+      <stop offset=".5" stop-color="#fbe8cd"/>
+      <stop offset="1" stop-color="#fbf1e0"/>
+    </linearGradient>
+    <radialGradient id="sun" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#f7a83c" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#f7a83c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="800" cy="420" r="330" fill="url(#sun)"/>
+
+  <!-- papel picado: two strung rows of cut-paper flags -->
+  <g opacity=".8">
+    <path d="M0 70 Q 400 130 800 70 T 1600 70" fill="none" stroke="#b98a5a" stroke-width="4"/>
+    <g>
+      <path d="M60 84 h120 l-60 96z" fill="#e04f3d"/>
+      <path d="M240 96 h120 l-60 96z" fill="#f0a92c"/>
+      <path d="M420 104 h120 l-60 96z" fill="#2f9e8f"/>
+      <path d="M600 106 h120 l-60 96z" fill="#e04f3d"/>
+      <path d="M780 104 h120 l-60 96z" fill="#7b4bb5"/>
+      <path d="M960 98 h120 l-60 96z" fill="#f0a92c"/>
+      <path d="M1140 90 h120 l-60 96z" fill="#2f9e8f"/>
+      <path d="M1320 82 h120 l-60 96z" fill="#e04f3d"/>
+    </g>
+    <g fill="#fbf1e0" opacity=".8">
+      <circle cx="120" cy="112" r="9"/><circle cx="300" cy="124" r="9"/><circle cx="480" cy="132" r="9"/>
+      <circle cx="660" cy="134" r="9"/><circle cx="840" cy="132" r="9"/><circle cx="1020" cy="126" r="9"/>
+      <circle cx="1200" cy="118" r="9"/><circle cx="1380" cy="110" r="9"/>
+    </g>
+  </g>
+
+  <path d="M0 700 Q 300 660 600 700 T 1200 700 T 1600 690 L1600 900 L0 900Z" fill="#d9a86e" opacity=".45"/>
+
+  <!-- mission church -->
+  <g fill="#c07a4e" opacity=".7">
+    <path d="M700 700 v-200 h200 v200z"/>
+    <path d="M660 700 v-140 h40 v140z"/>
+    <path d="M900 700 v-140 h40 v140z"/>
+    <path d="M700 500 q100 -90 200 0z"/>
+    <rect x="785" y="360" width="30" height="90"/>
+    <rect x="770" y="382" width="60" height="24"/>
+  </g>
+  <g fill="#fbf1e0" opacity=".55">
+    <circle cx="800" cy="560" r="30"/>
+    <path d="M760 700 v-70 q40 -40 80 0 v70z"/>
+  </g>
+
+  <!-- agave / cactus -->
+  <g fill="#3f8a6e" opacity=".6">
+    <path d="M300 700 v-120 q0 -40 34 -40 t34 40 v120z"/>
+    <path d="M300 640 h-46 q-24 0 -24 -34 t24 -34 h46z"/>
+    <path d="M368 616 h46 q24 0 24 -34 t-24 -34 h-46z"/>
+    <path d="M1260 700 q-40 -110 10 -170 q30 90 70 40 q10 80 -20 130z"/>
+    <path d="M1360 700 q-30 -80 6 -124 q22 66 52 30 q8 58 -16 94z"/>
+  </g>
+</svg>
