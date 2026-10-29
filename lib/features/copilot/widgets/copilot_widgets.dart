@@ -26,67 +26,17 @@ void notifyPending(String label) => Toast.info('$label lands with the Copilot ba
 /// next thing that happens to this text is being pasted to whoever can fix it.
 void reportFailure(Object error, String what) {
   final f = CopilotFailure.of(error);
-  final messenger = scaffoldMessengerKey.currentState;
-  if (messenger == null) return;
-  messenger
-    ..hideCurrentSnackBar()
-    ..showSnackBar(
-      SnackBar(
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 12),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        padding: EdgeInsets.zero,
-        content: Builder(
-          builder: (context) {
-            final c = context.colors;
-            return Container(
-              padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
-              decoration: BoxDecoration(
-                color: c.surface,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: c.gray200),
-                boxShadow: const [BoxShadow(color: Color(0x1A000000), blurRadius: 16, offset: Offset(0, 6))],
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(LucideIcons.circleAlert, size: 18, color: AppColors.red600),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          f.detail,
-                          maxLines: 4,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600, color: c.gray900),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          f.status != null ? '$what · HTTP ${f.status}' : what,
-                          style: TextStyle(fontSize: 12.5, color: c.gray500),
-                        ),
-                      ],
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Clipboard.setData(ClipboardData(text: '$what — ${f.text}'));
-                      messenger.hideCurrentSnackBar();
-                      Toast.success('Error copied');
-                    },
-                    child: Text('Copy', style: TextStyle(fontSize: 12.5, color: c.gray900)),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
+  Toast.show(
+    ToastKind.error,
+    f.detail,
+    description: f.status != null ? '$what · HTTP ${f.status}' : what,
+    maxLines: 4,
+    duration: const Duration(seconds: 12),
+    action: ToastAction('Copy', () {
+      Clipboard.setData(ClipboardData(text: '$what — ${f.text}'));
+      Toast.success('Error copied');
+    }),
+  );
 }
 
 /// The ink button the web draws as `bg-gray-900 text-surface` — inverts in

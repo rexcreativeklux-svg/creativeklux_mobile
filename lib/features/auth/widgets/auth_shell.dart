@@ -204,3 +204,34 @@ class AuthLinkLine extends StatelessWidget {
     );
   }
 }
+
+/// "By signing in you agree to our Terms & Privacy Policy" — with both
+/// names tappable, opening the public `/terms` and `/privacy` pages (pushed,
+/// so Back returns to the form with what was typed still there).
+class LegalConsentLine extends StatelessWidget {
+  const LegalConsentLine({super.key, required this.prefix});
+
+  /// e.g. "By signing in you agree to our".
+  final String prefix;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    final link = TextStyle(fontSize: 11, color: c.gray500, decoration: TextDecoration.underline);
+    return Wrap(
+      alignment: WrapAlignment.center,
+      children: [
+        Text('$prefix ', style: TextStyle(fontSize: 11, color: c.gray300)),
+        GestureDetector(
+          onTap: () => context.push('/terms'),
+          child: Text('Terms', style: link),
+        ),
+        Text(' & ', style: TextStyle(fontSize: 11, color: c.gray300)),
+        GestureDetector(
+          onTap: () => context.push('/privacy'),
+          child: Text('Privacy Policy', style: link),
+        ),
+      ],
+    );
+  }
+}

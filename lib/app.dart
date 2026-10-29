@@ -103,6 +103,8 @@ class _CreativeKluxAppState extends State<CreativeKluxApp> with WidgetsBindingOb
             // app. Honour it, but cap it so a large setting can't break layouts
             // that were sized for a phone screen.
             MediaQuery.withClampedTextScaling(maxScaleFactor: 1.1, child: child!),
+            // Above the navigator, so toasts show over sheets and dialogs too.
+            const ToastHost(),
           ],
         ),
       ),

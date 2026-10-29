@@ -6,7 +6,7 @@ Exception already agreed: **Home uses the Pixury-style layout** (hero carousel, 
 
 ## Where the source of truth lives
 
-- Web app (Next.js 16 / React 19): `C:\Users\HomePC\Pictures\Coding\Frontend\creative-klux` (note the hyphen; there is no `frontend/creativeklux`)
+- Web app (Next.js 16 / React 19): `C:\Users\HomePC\Pictures\Coding\Frontend\Netsprin\creative-klux` (note the hyphen; it moved there from `Frontend\creative-klux`)
   - Pages: `src/app/(auth)/…`, `src/app/(dashboard)/(pages)/…`
   - Shared components: `src/app/(components)/…`
   - **All API calls**: `src/context/AuthContext.jsx` (~4k lines, one giant context) plus `src/(lib)/*-api.js`
@@ -56,6 +56,12 @@ core/design/               layout-JSON renderer (renderDesign.js port)
   - Sheets: always pass `useRootNavigator: true` to `showModalBottomSheet`.
   - Viewers: push with `Navigator.of(context, rootNavigator: true)`.
   - Close a sheet with the sheet's OWN context (its builder's or its widget's), never the page's.
+  - Inside a sheet, never call `GoRouterState.of(context)`: on the root navigator there is no route above it, so it throws and the sheet shows up blank. Use `GoRouter.of(context).routeInformationProvider.value.uri` instead (this broke the account menu once).
+- **Toasts are drawn above everything** (`core/ui/toast.dart`: `Toast.*` + `ToastHost`, last in the `MaterialApp.builder` stack). Never use SnackBars or `ScaffoldMessenger`: they draw in the page's Scaffold, BELOW every sheet and dialog on the root navigator, so a message raised from a sheet was invisible. Need a button on one? Use `Toast.show(kind, msg, action: ToastAction('Copy', …))`.
+- **Website-address inputs: strip ALL whitespace before using the value**, `replaceAll(RegExp(r'\s+'), '')`, not `trim()`. Some Android keyboards insert a space after every "." ("canva. com"), which breaks the request.
+  - Done for: brand import/save, Custom Creation imports, Market Spy, Creative Comparison, Gallery load-from-URL.
+  - ⚠️ Shell/`sed` edits have eaten the backslash twice (`s+` strips every letter "s"). Write regexes with the Edit tool.
+- **Brands failing to load ≠ no brands.** `AuthController.brandsFailed` keeps the last list, the brand gate offers "Try again", and it retries on app resume. Never show "Create your first brand" on a failed load: it invited duplicate brands.
 - Icons: `lucide_icons_flutter` (`LucideIcons.x`), same icon set as the web's lucide-react.
 - Comments: explain *why*, in the same style as the web code. Note the web file a widget ports from.
 
@@ -107,7 +113,7 @@ core/design/               layout-JSON renderer (renderDesign.js port)
 
 ## Progress
 
-Next up: Product Studio and the Photo editor (`/edit_a_photo`), then Social/Ads content. The editor's AI image tools wait on the native-ML-vs-server decision (see the editor entry).
+Next up: Product Studio and the Photo editor (`/edit_a_photo`): the only pages still in `_pending`. Both wait on the AI image tools decision (phone vs server). The editor's AI image tools wait on the native-ML-vs-server decision (see the editor entry).
 
 - [x] Foundation: theme (light/dark), API client, error classification, session storage, router
 - [x] Auth: login, register, verify email, forgot password, change password (code-based reset)
@@ -258,6 +264,27 @@ Next up: Product Studio and the Photo editor (`/edit_a_photo`), then Social/Ads 
   - The channel connect view shows a QR code (qr_flutter).
   - Messages can be read aloud: `widgets/read_aloud.dart` uses flutter_tts and needs the TTS_SERVICE <queries> intent in AndroidManifest.
 - [ ] Product Studio, Photo editor (`/edit_a_photo`) — heavy on-device AI on web (ONNX/transformers.js); decide per tool: native ML vs server
-- [ ] Social content, Ads content, Ad Intelligence, Copilot
-- [ ] Settings: profile, team, billing, socials, sessions & password, resell, custom domain
-- [ ] Gallery, Integrations, Help
+- Shared section pieces: `core/ui/section_tabs.dart` (`SectionTabs`, the web's SectionLayout secondary sidebar as a tab strip under the top bar; tabs `go` rather than push) and `core/ui/confirm_dialog.dart` (`showConfirmDialog`, ConfirmDialog.jsx). Charts use `fl_chart` (the web uses Recharts).
+- [x] Social content (`features/social_content/`):
+  - Routes: `/social-content` → `/social-content/publishing`; plus `/calendar` and `/analytics`; `/PostNow` is full screen.
+  - Real endpoints: `GET /integrations`, `/creatives/posts`, `/creatives/post-metrics` and `DELETE /creatives/post`.
+  - PostNow is a mock on the web, which claims "Post published successfully!" while sending nothing. The app says posting there isn't available yet.
+- [x] Ads content (`features/ads_content/`):
+  - Routes: `/ads-content` → `/ads-content/publishing`; plus `/calendar` and `/analytics`; `/AdsNow` is full screen and a mock, as on the web.
+  - Endpoints: `/creatives/campaigns`, `/creatives/campaign-metrics`, `PATCH /creatives/campaign-status` and `DELETE /creatives/campaign`. Delete isn't built on the backend yet (500); the app shows the error.
+- [x] Ad Intelligence (`features/ad_intelligence/`; routes in `ad_intelligence_routes.dart`):
+  - Routes: `/ad-intelligence` → ad-performance. Tools: ad-performance, market-spy, ad-guard-ai, ad-scorer-ai, creative-comparison.
+  - All are real AI endpoints: `/creative-insights`, `/competitor-insights`, `/compliance-checker`, `/creative-scoring`, `/creative-comparison`.
+  - NOT ported: `(Predict)/adGuard`, `rivalLens`, `(analyze)/brandPulse` and `creativeIQ`. They're commented out of the web sidebar.
+- [x] Settings (`features/settings/`):
+  - Routes: `/profile`, `/sessions-and-password`, `/team`, `/socials`, `/billing`, `/resell`, `/custom-domain`. They share one SectionTabs strip; there's no index (the web's is a dead legacy panel).
+  - Real: profile + photo, `/teams`, `/resells`, `/apply-promotion-code`.
+  - Unconfirmed on the web: password change, sessions, delete account.
+  - Mock, as on the web: plan buttons / Buy tokens ("coming soon", no checkout anywhere) and Custom Domain.
+  - Socials uses `BrandIntegrations`, the live connections. The web's `/social-accounts` is retired.
+- [x] Gallery `/gallery` (`features/gallery/`): list, tab counts, upload, delete, Pexels stock, download/share.
+- [x] Integrations `/integrations` (`features/integrations/`): built on `BrandIntegrations` (catalogue, browser consent + re-read on resume, account chooser, "Finish connecting").
+- [x] Help `/help`, `/help/support`, `/help/tutorial-videos` (`features/help/`):
+  - Support is static, as on the web. Its ticket form is commented out there.
+  - Tutorials come from `GET /tutorial-videos`. YouTube links open externally (no web view).
+- [x] Legal `/privacy`, `/terms` (`features/legal/`): top-level routes, allowed signed OUT in the router's redirect. The sign-in and register screens link to them (`LegalConsentLine`).

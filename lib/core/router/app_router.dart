@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../features/ad_intelligence/ad_intelligence_routes.dart';
+import '../../features/ads_content/ads_analytics_screen.dart';
+import '../../features/ads_content/ads_calendar_screen.dart';
+import '../../features/ads_content/ads_now_screen.dart';
+import '../../features/ads_content/ads_publishing_screen.dart';
 import '../../features/auth/auth_controller.dart';
+import '../../features/social_content/analytics_screen.dart';
+import '../../features/social_content/calendar_screen.dart';
+import '../../features/social_content/post_now_screen.dart';
+import '../../features/social_content/publishing_screen.dart';
 import '../../features/auth/screens/change_password_screen.dart';
 import '../../features/auth/screens/forgot_password_screen.dart';
 import '../../features/auth/screens/login_screen.dart';
@@ -26,6 +35,19 @@ import '../../features/magic_studio/magic_studio_types.dart';
 import '../../features/studio/ai_chat_screen.dart';
 import '../../features/studio/custom/create_from_url_screen.dart';
 import '../../features/studio/custom/custom_studio_screen.dart';
+import '../../features/settings/billing_screen.dart';
+import '../../features/settings/custom_domain_screen.dart';
+import '../../features/settings/profile_screen.dart';
+import '../../features/settings/resell_screen.dart';
+import '../../features/settings/sessions_password_screen.dart';
+import '../../features/settings/socials_screen.dart';
+import '../../features/settings/team_screen.dart';
+import '../../features/gallery/gallery_screen.dart';
+import '../../features/help/help_screen.dart';
+import '../../features/help/support_screen.dart';
+import '../../features/help/tutorial_videos_screen.dart';
+import '../../features/integrations/integrations_screen.dart';
+import '../../features/legal/legal_screen.dart';
 import '../../features/shell/dashboard_shell.dart';
 import '../../features/shell/porting_screen.dart';
 import '../../features/shell/splash_screen.dart';
@@ -39,21 +61,6 @@ const _authRoutes = {'/login', '/register', '/forgot-password', '/change-passwor
 const _pending = <(String, String, String, IconData)>[
   ('/product-studio', 'Product Studio', '(dashboard)/(pages)/product-studio', LucideIcons.bookImage),
   ('/edit_a_photo', 'Photo Editor', '(dashboard)/(pages)/edit_a_photo', LucideIcons.image),
-  ('/social-content', 'Social', '(dashboard)/(pages)/social-content', LucideIcons.share2),
-  (
-    '/social-content/calendar',
-    'Content Calendar',
-    '(dashboard)/(pages)/social-content/calendar',
-    LucideIcons.calendarCheck,
-  ),
-  ('/ads-content', 'Ads', '(dashboard)/(pages)/ads-content', LucideIcons.megaphone),
-  ('/ad-intelligence', 'Ad Intelligence', '(dashboard)/(pages)/ad-intelligence', LucideIcons.brain),
-  ('/profile', 'Profile Settings', '(dashboard)/(pages)/(settings)/profile', LucideIcons.user),
-  ('/gallery', 'Gallery', '(dashboard)/(pages)/gallery', LucideIcons.image),
-  ('/integrations', 'Integrations', '(dashboard)/(pages)/integrations', LucideIcons.workflow),
-  ('/resell', 'Resell', '(dashboard)/(pages)/(settings)/resell', LucideIcons.shoppingCart),
-  ('/billing', 'Plans And Billing', '(dashboard)/(pages)/(settings)/billing', LucideIcons.creditCard),
-  ('/help', 'Help', '(dashboard)/(pages)/help', LucideIcons.circleHelp),
 ];
 
 GoRouter buildRouter(AuthController auth, IntroGate intro) {
@@ -77,6 +84,9 @@ GoRouter buildRouter(AuthController auth, IntroGate intro) {
 
       // Invite links work signed in or out (the page handles both), like the web.
       if (loc.startsWith('/invites/')) return null;
+
+      // The legal pages are public: the sign-in screen links to them.
+      if (loc == '/privacy' || loc == '/terms') return null;
 
       final onAuthRoute = _authRoutes.contains(loc);
       if (!auth.isLoggedIn) return onAuthRoute ? null : '/login';
@@ -180,6 +190,41 @@ GoRouter buildRouter(AuthController auth, IntroGate intro) {
                 NoTransitionPage(child: CopilotHomeScreen(task: state.uri.queryParameters['task'])),
           ),
           GoRoute(path: '/copilot/all', builder: (_, _) => const AllCopilotsScreen()),
+          GoRoute(path: '/gallery', builder: (_, _) => const GalleryScreen()),
+          GoRoute(path: '/integrations', builder: (_, _) => const IntegrationsScreen()),
+          GoRoute(path: '/help', builder: (_, _) => const HelpScreen()),
+          GoRoute(path: '/help/support', builder: (_, _) => const SupportScreen()),
+          GoRoute(path: '/help/tutorial-videos', builder: (_, _) => const TutorialVideosScreen()),
+          // ── Settings ── no index page (the web's is a dead legacy panel); every page
+          // carries the settings tab strip instead.
+          GoRoute(path: '/profile', builder: (_, _) => const ProfileScreen()),
+          GoRoute(path: '/sessions-and-password', builder: (_, _) => const SessionsPasswordScreen()),
+          GoRoute(path: '/team', builder: (_, _) => const TeamScreen()),
+          GoRoute(path: '/socials', builder: (_, _) => const SocialsScreen()),
+          GoRoute(path: '/billing', builder: (_, _) => const BillingScreen()),
+          GoRoute(path: '/resell', builder: (_, _) => const ResellScreen()),
+          GoRoute(path: '/custom-domain', builder: (_, _) => const CustomDomainScreen()),
+          // ── Ad Intelligence ── bare /ad-intelligence forwards to the first tool, like the web.
+          ...adIntelligenceRoutes,
+          // ── Social Content ── bare /social-content forwards to Publishing, like the web.
+          GoRoute(path: '/social-content', redirect: (_, _) => SocialPublishingScreen.path),
+          GoRoute(path: SocialPublishingScreen.path, builder: (_, _) => const SocialPublishingScreen()),
+          GoRoute(path: SocialCalendarScreen.path, builder: (_, _) => const SocialCalendarScreen()),
+          GoRoute(path: SocialAnalyticsScreen.path, builder: (_, _) => const SocialAnalyticsScreen()),
+          // ── Ads Content ── bare /ads-content forwards to Publishing, like the web.
+          GoRoute(path: '/ads-content', redirect: (_, _) => AdsPublishingScreen.path),
+          GoRoute(
+            path: AdsPublishingScreen.path,
+            pageBuilder: (_, _) => const NoTransitionPage(child: AdsPublishingScreen()),
+          ),
+          GoRoute(
+            path: AdsCalendarScreen.path,
+            pageBuilder: (_, _) => const NoTransitionPage(child: AdsCalendarScreen()),
+          ),
+          GoRoute(
+            path: AdsAnalyticsScreen.path,
+            pageBuilder: (_, _) => const NoTransitionPage(child: AdsAnalyticsScreen()),
+          ),
           for (final (path, title, webPath, icon) in _pending)
             GoRoute(
               path: path,
@@ -190,6 +235,28 @@ GoRouter buildRouter(AuthController auth, IntroGate intro) {
       // A copilot's workspace — full screen (no bottom nav): the conversation
       // and the keyboard need the room. ⚠️ AFTER the ShellRoute, so the shell's
       // `/copilot/all` matches before `:id` could swallow "all".
+      // Public legal pages — top level so they work signed out too.
+      GoRoute(path: '/privacy', builder: (_, _) => const LegalScreen.privacy()),
+      GoRoute(path: '/terms', builder: (_, _) => const LegalScreen.terms()),
+      // Full screen, with its own pinned action bar.
+      GoRoute(
+        path: PostNowScreen.path,
+        builder: (_, state) => PostNowScreen(
+          platform: state.uri.queryParameters['platform'] ?? 'facebook',
+          text: state.uri.queryParameters['text'] ?? '',
+          schedule: state.uri.queryParameters['action'] == 'schedule',
+          assets: state.extra is List<PostNowAsset> ? state.extra as List<PostNowAsset> : const [],
+        ),
+      ),
+      // Full screen: the web opens Ads Now in its own tab from AdsIntegrationModal.
+      GoRoute(
+        path: '/AdsNow',
+        builder: (_, state) => AdsNowScreen(
+          initialUrl: state.uri.queryParameters['url'],
+          initialProjectName: state.uri.queryParameters['projectName'],
+          initialMedia: state.uri.queryParametersAll['media'] ?? const [],
+        ),
+      ),
       GoRoute(
         path: '/copilot/:id',
         builder: (_, state) {

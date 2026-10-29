@@ -32,7 +32,8 @@ class CustomStudioApi {
 
   /// Returns the import, or throws with the server's message.
   Future<ImportedBrand> importBrand(String url) async {
-    final res = await _brand.importFromUrl(url.trim());
+    // No URL contains spaces; some keyboards add one after every ".".
+    final res = await _brand.importFromUrl(url.replaceAll(RegExp(r'\s+'), ''));
     if (!res.ok) throw Exception(res.message.isNotEmpty ? res.message : 'Import failed');
     final d = res.body['data'] is Map ? Map<String, dynamic>.from(res.body['data'] as Map) : res.body;
     String? s(Object? v) => v == null || '$v'.trim().isEmpty ? null : '$v'.trim();

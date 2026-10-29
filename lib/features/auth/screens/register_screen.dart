@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/api/app_exception.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../core/ui/app_input.dart';
 import '../../../core/ui/primary_button.dart';
 import '../../../core/ui/toast.dart';
@@ -71,7 +70,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
     return AutofillGroup(
       child: AuthShell(
         title: 'Create your account',
@@ -130,11 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           const SocialAuthButtons(label: 'or sign up with'),
           AuthLinkLine(text: 'Already have an account? ', link: 'Sign in', onTap: () => context.go('/login')),
           const SizedBox(height: 32),
-          Text(
-            'By creating an account you agree to our Terms & Privacy Policy',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 11, color: c.gray300),
-          ),
+          const LegalConsentLine(prefix: 'By creating an account you agree to our'),
         ],
       ),
     );

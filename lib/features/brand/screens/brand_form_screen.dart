@@ -135,7 +135,8 @@ class _BrandFormScreenState extends State<BrandFormScreen> {
   }
 
   Future<void> _import() async {
-    final url = _url.text.trim();
+    // No URL contains spaces; some keyboards add one after every ".".
+    final url = _url.text.replaceAll(RegExp(r'\s+'), '');
     if (!_validUrl(url)) {
       setState(() => _urlError = 'Please enter a valid URL (e.g. https://yourdomain.com)');
       return;
@@ -256,8 +257,8 @@ class _BrandFormScreenState extends State<BrandFormScreen> {
           'social_accounts': '[]',
           'ad_accounts': '[]',
           'industry': _industry,
-          'url': isImport ? _url.text.trim() : '',
-          'source_url': isImport ? (_sourceUrl.isNotEmpty ? _sourceUrl : _url.text.trim()) : '',
+          'url': isImport ? _url.text.replaceAll(RegExp(r'\s+'), '') : '',
+          'source_url': isImport ? (_sourceUrl.isNotEmpty ? _sourceUrl : _url.text.replaceAll(RegExp(r'\s+'), '')) : '',
           'landing_page_flag': '0',
           'logo': ?_logo,
         });

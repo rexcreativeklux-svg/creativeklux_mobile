@@ -52,7 +52,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
     return AutofillGroup(
       child: AuthShell(
         title: 'Welcome back',
@@ -88,11 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
           const SocialAuthButtons(),
           AuthLinkLine(text: 'Don’t have an account? ', link: 'Create one free', onTap: () => context.go('/register')),
           const SizedBox(height: 32),
-          Text(
-            'By signing in you agree to our Terms & Privacy Policy',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 11, color: c.gray300),
-          ),
+          const LegalConsentLine(prefix: 'By signing in you agree to our'),
         ],
       ),
     );

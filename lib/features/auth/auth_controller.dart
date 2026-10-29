@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../core/api/api_client.dart';
 import '../../core/api/app_exception.dart';
@@ -16,6 +16,21 @@ import '../brand/brand_api.dart';
 class AuthController extends ChangeNotifier {
   AuthController(this._store) {
     api = ApiClient(tokenProvider: () => _token)..onUnauthorized = _handleUnauthorized;
+    // Back in the app after the brands failed to load (phone woke up offline,
+    // say)? Try again without making the user find a button.
+    _lifecycle = AppLifecycleListener(
+      onResume: () {
+        if (_token != null && _brandsFailed && !_brandsLoading) fetchBrands();
+      },
+    );
+  }
+
+  late final AppLifecycleListener _lifecycle;
+
+  @override
+  void dispose() {
+    _lifecycle.dispose();
+    super.dispose();
   }
 
   final SessionStore _store;
@@ -30,6 +45,11 @@ class AuthController extends ChangeNotifier {
 
   List<Brand> _brands = const [];
   bool _brandsLoading = true;
+
+  /// The last brands request failed (network, server). Not the same as "no
+  /// brands": the gate must offer Retry, never "Create your first brand" —
+  /// that invited a duplicate brand whenever the phone woke up offline.
+  bool _brandsFailed = false;
   Brand? _activeBrand;
   int? _switchingBrandId;
 
@@ -49,6 +69,7 @@ class AuthController extends ChangeNotifier {
 
   List<Brand> get brands => _brands;
   bool get brandsLoading => _brandsLoading;
+  bool get brandsFailed => _brandsFailed;
   Brand? get activeBrand => _activeBrand;
   int? get switchingBrandId => _switchingBrandId;
 
@@ -126,6 +147,7 @@ class AuthController extends ChangeNotifier {
     _token = null;
     _user = null;
     _brands = const [];
+    _brandsFailed = false;
     _activeBrand = null;
     _activePackage = null;
     _loading = false;
@@ -172,9 +194,11 @@ class AuthController extends ChangeNotifier {
     final res = await api.get('/brands');
     if (!res.ok) {
       if (res.status != 401) Toast.error("Couldn't load brands. Please try again later.");
-      _brands = const [];
-      _activeBrand = null;
+      // Keep whatever loaded last time — a dropped connection says nothing
+      // about the brands themselves.
+      _brandsFailed = true;
     } else {
+      _brandsFailed = false;
       final list = res.body['data'];
       _brands = list is List ? list.map(Brand.tryParse).whereType<Brand>().toList() : const [];
 

@@ -32,7 +32,10 @@ class AccountMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final auth = context.watch<AuthController>();
-    final location = GoRouterState.of(context).matchedLocation;
+    // From the router, not GoRouterState.of: as a sheet this sits on the ROOT
+    // navigator, above every route, where GoRouterState.of throws and the sheet
+    // came up blank. (It still works embedded in the More drawer.)
+    final location = GoRouter.of(context).routeInformationProvider.value.uri.path;
 
     void go(String path) {
       final router = GoRouter.of(context);

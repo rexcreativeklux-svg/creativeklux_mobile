@@ -118,6 +118,51 @@ class _BrandSelectGateState extends State<BrandSelectGate> {
       );
     }
 
+    if (auth.brands.isEmpty && auth.brandsFailed) {
+      // The list didn't load — say so, and offer Retry. Offering "Create your
+      // first brand" here led people with brands to make a duplicate.
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(color: c.redTint, borderRadius: BorderRadius.circular(16)),
+              child: const Icon(LucideIcons.wifiOff, size: 28, color: AppColors.red500),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              "Couldn't load your brands",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: c.gray800),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              'Check your connection and try again.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14, color: c.gray500, height: 1.4),
+            ),
+            const SizedBox(height: 24),
+            FilledButton.icon(
+              onPressed: auth.fetchBrands,
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.blue600,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+              icon: const Icon(LucideIcons.refreshCw, size: 16),
+              label: const Text('Try again', style: TextStyle(fontWeight: FontWeight.w600)),
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: auth.logout,
+              child: Text('Sign out', style: TextStyle(fontSize: 13, color: c.gray500)),
+            ),
+          ],
+        ),
+      );
+    }
+
     if (brands.isEmpty) {
       // No brands at all — the user must create one before continuing.
       return Padding(
